@@ -5,6 +5,10 @@ MAINTAINER nitesh.turaga@roswellpark.org
 # Update apt-get
 RUN apt-get update
 
+# This is to avoid the error
+# 'debconf: unable to initialize frontend: Dialog'
+ENV DEBIAN_FRONTEND noninteractive
+
 # Additional software needed to get R/Bioc working
 RUN apt-get install -y --no-install-recommends \
 	apt-utils \
