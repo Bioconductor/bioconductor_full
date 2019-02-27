@@ -23,8 +23,6 @@ RUN apt-get install -y --no-install-recommends \
 	libnetcdf-dev \
 	libhdf5-serial-dev \
 	libfftw3-dev \
-	## FIXME: Investigate, as this needed only for docs
-	libfftw3-doc \
 	libopenbabel-dev \
 	libopenmpi-dev \
 	libexempi3 \
