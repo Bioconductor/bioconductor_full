@@ -7,95 +7,86 @@ RUN apt-get update
 
 # Additional software needed to get R/Bioc working
 RUN apt-get install -y --no-install-recommends \
-    apt-utils \
-    ## This section installs tools for other software
-    pkg-config \
-    fortran77-compiler \
-    byacc \
-    automake \
-    curl \
-    ## This installs libraries
-    libpng-dev \
-    libnetcdf-dev \
-    libhdf5-serial-dev \
-    libfftw3-dev \
-    ## FIXME: Investigate, as this needed only for docs
-    libfftw3-doc \
-    libopenbabel-dev \
-    ## FIXME: See if it duplicated libfftw3-dev
-    ##  libfftw3-3 \
-    libopenmpi-dev \
-    libexempi3 \
-    libxt-dev \
-    libgdal-dev \
-    libjpeg62-turbo-dev \
-    libcairo2-dev \
-    libtiff5-dev \
-    libreadline-dev \
-    ## FIXME : see if this should be libgsl2-dev
-    libgsl2 \
-    ## FIXME : see if this is not needed because libgsl2-dev is avilable
-    ## libgsl0-dev \
-    libgtk2.0-dev \
-    libgl1-mesa-dev \
-    libglu1-mesa-dev \
-    libgmp3-dev \
-    libhdf5-dev \
-    libncurses-dev \
-    libbz2-dev \
-    libxpm-dev \
-    liblapack-dev \
-    libv8-3.14-dev \
-    libperl-dev \
-    ## FIXME: Are these tools or libs?
-    libarchive-extract-perl \
-    ## FIXME: Are these tools or libs?
-    libfile-copy-recursive-perl \
-    ## FIXME: Are these tools or libs?
-    libcgi-pm-perl \
-    libdbi-perl \
-    libdbd-mysql-perl \
-    libgtkmm-2.4-dev \
-    libxml-simple-perl \
-    libmpfr-dev \
-    libudunits2-dev \
-    libmodule-build-perl \
-    libapparmor-dev \
-    libgeos-dev \
-    libprotoc-dev \
-    librdf0-dev \
-    libmagick++-dev \
-    libsasl2-dev \
-    libpoppler-cpp-dev \
-    libprotobuf-dev \
-    libpq-dev \
-    libsbml5 \
-    ## Databases and other software
-    sqlite \
-    openmpi-bin \
-    mpi-default-bin \
-    openmpi-common \
-    openmpi-doc \
-    tcl8.5-dev \
-    ## FIXME: is this redundant with tk-dev
-    tk8.5-dev \
-    tk-dev \
-    openjdk-8-jdk \
-    imagemagick \
-    tabix \
-    ggobi \
-    graphviz \
-    protobuf-compiler \
-    jags \
-    ## Additional resources
-    xvfb \
-    xfonts-100dpi \
-    xfonts-75dpi \
-    biber \
-    ## FIXME : Probably not needed
-    htop \
-    ## FIXME : Probably not needed
-    tree
+	apt-utils \
+	## *** This section installs tools for other software ***
+	pkg-config \
+	fortran77-compiler \
+	byacc \
+	automake \
+	curl \
+	## This section installs libraries
+	libpng-dev \
+	libnetcdf-dev \
+	libhdf5-serial-dev \
+	libfftw3-dev \
+	## FIXME: Investigate, as this needed only for docs
+	libfftw3-doc \
+	libopenbabel-dev \
+	libopenmpi-dev \
+	libexempi3 \
+	libxt-dev \
+	libgdal-dev \
+	libjpeg62-turbo-dev \
+	libcairo2-dev \
+	libtiff5-dev \
+	libreadline-dev \
+	## FIXME : see if this should be libgsl2-dev
+	libgsl2 \
+	## FIXME : see if this is not needed because libgsl2-dev is avilable
+	## libgsl0-dev \
+	libgtk2.0-dev \
+	libgl1-mesa-dev \
+	libglu1-mesa-dev \
+	libgmp3-dev \
+	libhdf5-dev \
+	libncurses-dev \
+	libbz2-dev \
+	libxpm-dev \
+	liblapack-dev \
+	libv8-3.14-dev \
+	libgtkmm-2.4-dev \
+	libmpfr-dev \
+	libudunits2-dev \
+	libmodule-build-perl \
+	libapparmor-dev \
+	libgeos-dev \
+	libprotoc-dev \
+	librdf0-dev \
+	libmagick++-dev \
+	libsasl2-dev \
+	libpoppler-cpp-dev \
+	libprotobuf-dev \
+	libpq-dev \
+	libsbml5 \
+	libperl-dev \
+	## software - perl extentions and modules
+	libarchive-extract-perl \
+	libfile-copy-recursive-perl \
+	libcgi-pm-perl \
+	libdbi-perl \
+	libdbd-mysql-perl \
+	libxml-simple-perl \
+	## Databases and other software
+	sqlite \
+	openmpi-bin \
+	mpi-default-bin \
+	openmpi-common \
+	openmpi-doc \
+	tcl8.5-dev \
+	## tk-dev (is 8.6-dev), no need of tk8.5-dev
+	tk-dev \
+	openjdk-8-jdk \
+	imagemagick \
+	tabix \
+	ggobi \
+	graphviz \
+	protobuf-compiler \
+	jags \
+	## Additional resources
+	xvfb \
+	xfonts-100dpi \
+	xfonts-75dpi \
+	biber
 
 # Install sklearn and pandas on python
 RUN pip install sklearn \
