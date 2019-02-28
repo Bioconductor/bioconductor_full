@@ -32,10 +32,8 @@ RUN apt-get install -y --no-install-recommends \
 	libcairo2-dev \
 	libtiff5-dev \
 	libreadline-dev \
-	## FIXME : see if this should be libgsl2-dev
+	libgsl0-dev \
 	libgsl2 \
-	## FIXME : see if this is not needed because libgsl2-dev is avilable
-	## libgsl0-dev \
 	libgtk2.0-dev \
 	libgl1-mesa-dev \
 	libglu1-mesa-dev \
