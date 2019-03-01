@@ -12,7 +12,7 @@ ENV DEBIAN_FRONTEND noninteractive
 # Additional software needed to get R/Bioc working
 RUN apt-get install -y --no-install-recommends \
 	apt-utils \
-	## *** This section installs tools for other software ***
+	##This section installs tools for other software
 	pkg-config \
 	fortran77-compiler \
 	byacc \
