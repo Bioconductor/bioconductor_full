@@ -90,9 +90,10 @@ RUN apt-get install -y --no-install-recommends \
 
 # Install sklearn and pandas on python
 RUN pip install sklearn \
-		pandas \
-		pyyaml \
-		mpi4py
+	pandas \
+	pyyaml \
+	mpi4py \
+	cwltool
 
 ## Clean and rm
 RUN apt-get clean \
