@@ -43,6 +43,14 @@ There are 16 packages which fail to install,
 
 ## Packages
 
+## Fixed
+
+1. rsbml - libsbml (dependency)
+
+2. BiGGR
+
+       ERROR: dependency ‘rsbml’ is not available for package ‘BiGGR’
+       * removing ‘/root/shared/pkglibs/BiGGR’
 
 ### Never install
 
@@ -90,13 +98,6 @@ There are 16 packages which fail to install,
 
 
 ### Tough to fix
-
-1. rsbml - libsbml (dependency)
-
-2. BiGGR
-
-       ERROR: dependency ‘rsbml’ is not available for package ‘BiGGR’
-       * removing ‘/root/shared/pkglibs/BiGGR’
 
 3. mcaGUI (gWidgetsRGtk2 issue)
 

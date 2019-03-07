@@ -13,8 +13,11 @@ RUN apt-get update \
 RUN apt-get install -y dselect \
 	&& dselect update
 
+# Add BiocVersion
+RUN R -e "BiocManager::install(version='3.8')"
+
+# This section installs tools for other software
 RUN apt-get install -y --no-install-recommends \
-	## This section installs tools for other software
 	pkg-config \
 	fortran77-compiler \
 	byacc \
@@ -51,7 +54,6 @@ RUN apt-get install -y --no-install-recommends \
 	libprotobuf-dev \
 	libapparmor-dev \
 	libgeos-dev \
-	libsbml5 \
 	libprotoc-dev \
 	librdf0-dev \
 	libmagick++-dev \
@@ -76,7 +78,6 @@ RUN apt-get install -y --no-install-recommends \
 	openmpi-doc \
 	tcl8.5-dev \
 	# tk8.5-dev \
-	# tk-dev (is 8.6-dev), no need of tk8.5-dev \
 	tk-dev \
 	openjdk-8-jdk \
 	imagemagick \
@@ -98,13 +99,17 @@ RUN pip install sklearn \
 	pyyaml \
 	mpi4py
 
-## Add a new user after installing software
-RUN useradd -ms /bin/bash newuser
+# Install libsbml
+RUN cd /tmp \
+	&& curl -O https://s3.amazonaws.com/linux-provisioning/libSBML-5.10.2-core-src.tar.gz \
+	&& tar zxf libSBML-5.10.2-core-src.tar.gz \
+	&& cd libsbml-5.10.2 \
+	&& ./configure --enable-layout \
+	&& make \
+	&& make install \
+	&& cd /tmp \
+	&& rm -rf /tmp/libSBML-5.10.2-core-src.tar.gz /tmp/libSBML-5.10.2
 
 ## Clean and rm
 RUN apt-get clean \
 	&& rm -rf /var/lib/apt/lists/*
-
-## Enter as newuser
-USER newuser
-WORKDIR /home/newuser
