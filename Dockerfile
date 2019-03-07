@@ -2,17 +2,22 @@ FROM bioconductor/devel_base2:latest
 
 MAINTAINER nitesh.turaga@roswellpark.org
 
-# Update apt-get
-RUN apt-get update
-
 # This is to avoid the error
 # 'debconf: unable to initialize frontend: Dialog'
 ENV DEBIAN_FRONTEND noninteractive
 
-# Additional software needed to get R/Bioc working
+# Update apt-get
+RUN apt-get update \
+	&& apt-get install -y --no-install-recommends apt-utils
+
+RUN apt-get install -y dselect \
+	&& dselect update
+
+# Add BiocVersion
+RUN R -e "BiocManager::install(version='3.9')"
+
+# This section installs tools for other software
 RUN apt-get install -y --no-install-recommends \
-	apt-utils \
-	##This section installs tools for other software
 	pkg-config \
 	fortran77-compiler \
 	byacc \
@@ -57,7 +62,6 @@ RUN apt-get install -y --no-install-recommends \
 	libpoppler-cpp-dev \
 	libprotobuf-dev \
 	libpq-dev \
-	libsbml5 \
 	libperl-dev \
 	## software - perl extentions and modules
 	libarchive-extract-perl \
@@ -73,7 +77,6 @@ RUN apt-get install -y --no-install-recommends \
 	openmpi-common \
 	openmpi-doc \
 	tcl8.5-dev \
-	## tk-dev (is 8.6-dev), no need of tk8.5-dev
 	tk-dev \
 	openjdk-8-jdk \
 	imagemagick \
@@ -95,6 +98,17 @@ RUN pip install sklearn \
 	mpi4py \
 	cwltool
 
+# Install libsbml
+RUN cd /tmp \
+	&& curl -O https://s3.amazonaws.com/linux-provisioning/libSBML-5.10.2-core-src.tar.gz \
+	&& tar zxf libSBML-5.10.2-core-src.tar.gz \
+	&& cd libsbml-5.10.2 \
+	&& ./configure --enable-layout \
+	&& make \
+	&& make install \
+	&& cd /tmp \
+	&& rm -rf /tmp/libSBML-5.10.2-core-src.tar.gz /tmp/libSBML-5.10.2
+
 ## Clean and rm
 RUN apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+	&& rm -rf /var/lib/apt/lists/*

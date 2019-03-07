@@ -97,7 +97,7 @@ fall into the `##Maintainer issues` sections automatically.
        ```
 
     1. flowQB
-    
+
        ```
        ERROR: dependency ‘extremevalues’ is not available for package ‘flowQB’
        * removing ‘/root/shared/pkglibs/flowQB’
@@ -107,7 +107,6 @@ fall into the `##Maintainer issues` sections automatically.
        Warning: no DISPLAY variable so Tk is not available
        Error in structure(.External(.C_dotTclObjv, objv), class = "tclObj") :
        [tcl] invalid command name "font".
-       
        Error : unable to load R code in package 'gWidgetstcltk'
        ERROR: lazy loading failed for package 'gWidgetstcltk'
        * removing '/root/shared/pkglibs/gWidgetstcltk'
@@ -117,7 +116,7 @@ fall into the `##Maintainer issues` sections automatically.
 1. rsbml -- check installation of libsbml-dev
 
     1. BiGGR
-    
+
 1. Rcwl - CWL needs to be installed. (this should be easy)
 
         error: cwltool is not found, Please install cwltool first!
