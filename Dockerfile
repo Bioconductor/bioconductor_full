@@ -25,11 +25,7 @@ RUN apt-get install -y --no-install-recommends \
 	libnetcdf-dev \
 	libhdf5-serial-dev \
 	libfftw3-dev \
-	libfftw3-doc \
 	libopenbabel-dev \
-	libfftw3-3 \
-	libfftw3-dev \
-	libsbml5 \
 	libexempi3 \
 	libxt-dev \
 	libgdal-dev \
@@ -49,13 +45,13 @@ RUN apt-get install -y --no-install-recommends \
 	libxpm-dev \
 	liblapack-dev \
 	libv8-3.14-dev \
-	libperl-dev \
 	libmpfr-dev \
 	libudunits2-dev \
 	libmodule-build-perl \
 	libprotobuf-dev \
 	libapparmor-dev \
 	libgeos-dev \
+	libsbml5 \
 	libprotoc-dev \
 	librdf0-dev \
 	libmagick++-dev \
@@ -63,6 +59,7 @@ RUN apt-get install -y --no-install-recommends \
 	libpoppler-cpp-dev \
 	libpq-dev \
 	libopenmpi-dev \
+	libperl-dev \
 	## software - perl extensions and modules
 	libarchive-extract-perl \
 	libfile-copy-recursive-perl \
@@ -93,8 +90,7 @@ RUN apt-get install -y --no-install-recommends \
 	xvfb \
 	xfonts-100dpi \
 	xfonts-75dpi \
-	biber \
-	htop
+	biber
 
 # Install python packages and deps
 RUN pip install sklearn \
@@ -105,6 +101,3 @@ RUN pip install sklearn \
 ## Clean and rm
 RUN apt-get clean \
 	&& rm -rf /var/lib/apt/lists/*
-
-## Likely unneeded bloat?
-## apt-get install -y apache2
