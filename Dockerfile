@@ -106,9 +106,10 @@ RUN cd /tmp \
 	&& cd libsbml-5.10.2 \
 	&& ./configure --enable-layout \
 	&& make \
-	&& make install \
-	&& cd /tmp \
-	&& rm -rf /tmp/libSBML-5.10.2-core-src.tar.gz /tmp/libSBML-5.10.2
+	&& make install
+
+RUN rm -rf /tmp/libSBML-5.10.2 \
+	&& rm -rf /tmp/libSBML-5.10.2-core-src.tar.gz
 
 ## Clean and rm
 RUN apt-get clean \
