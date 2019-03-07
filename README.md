@@ -183,6 +183,20 @@ fall into the `##Maintainer issues` sections automatically.
 1. ggbio
 
     ```
+    From .checkSubclasses(): subclass "GeneNameFilter" of class "AnnotationFilter" is not local and is not updated for new inheritance information currently;
+    [where=<environment: 0x5650cf8cb038>, where2=<environment: namespace:ggbio>]
+    From .checkSubclasses(): subclass "GeneNameFilter" of class "AnnotationFilter" is not local and is not updated for new inheritance information currently;
+    [where=<environment: 0x5650cf8cb038>, where2=<environment: namespace:ggbio>]
+    Creating a new generic function for 'rescale' in package 'ggbio'
+    Creating a new generic function for 'xlim' in package 'ggbio'
+    Error in reconcilePropertiesAndPrototype(name, slots, prototype, superClasses,  :
+      The prototype for class "GGbio" has undefined slot(s): 'fechable'
+    Error: unable to load R code in package 'ggbio'
+    Execution halted
+    ERROR: lazy loading failed for package 'ggbio'
+    ```
+
+    ```
     > failed_deps
     ggbio
      [1] "CAFE"              "derfinderPlot"     "FourCSeq"
@@ -216,11 +230,11 @@ fall into the `##Maintainer issues` sections automatically.
 
 1. RpsiXML
 
-  Package has rever dependencies,
+    Package has reverse dependencies,
 
         [1] "ScISI"    "PCpheno"  "ppiStats" "SLGI"
 
-  The package fails because
+    The package fails because
 
         No methods found in package ‘Biobase’ for request: ‘listlen’ when loading ‘RpsiXML’
         No methods found in package ‘annotate’ for requests: ‘pubmed’, ‘buildPubMedAbst’ when loading ‘RpsiXML’
