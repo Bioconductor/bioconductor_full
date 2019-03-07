@@ -71,69 +71,101 @@ fall into the `##Maintainer issues` sections automatically.
 1. xps
 
 1. Rmpi (this will never build)
-  1. ccfindR
 
-## Tough to fix (advanced)
+    1. ccfindR
+
+## Tough to fix
+
+## Fixed
 
 1. X11 (xvfb) - cairoDevice
 
 1. no DISPLAY variable so Tk is not available - gWidgetstcltk
 
-## Fixable issues / Maintainer issues
+    1.  mcaGUI
+
+        ```
+        ERROR: dependency ‘gWidgetsRGtk2’ is not available for package ‘mcaGUI’
+        * removing ‘/root/shared/pkglibs/mcaGUI’
+        ```
+
+    1. EasyqpcR (gWidgetsRGtk2 issue)
+
+       ```
+       ERROR: dependency ‘gWidgetsRGtk2’ is not available for package ‘EasyqpcR’
+       * removing ‘/root/shared/pkglibs/EasyqpcR’
+       ```
+
+    1. flowQB
+    
+       ```
+       ERROR: dependency ‘extremevalues’ is not available for package ‘flowQB’
+       * removing ‘/root/shared/pkglibs/flowQB’
+       ```
+       ```
+       ** byte-compile and prepare package for lazy loading
+       Warning: no DISPLAY variable so Tk is not available
+       Error in structure(.External(.C_dotTclObjv, objv), class = "tclObj") :
+       [tcl] invalid command name "font".
+       
+       Error : unable to load R code in package 'gWidgetstcltk'
+       ERROR: lazy loading failed for package 'gWidgetstcltk'
+       * removing '/root/shared/pkglibs/gWidgetstcltk'
+       ERROR: dependency 'gWidgetstcltk' is not available for package 'extremevalues'
+       ```
 
 1. rsbml -- check installation of libsbml-dev
 
-   1. BiGGR
+    1. BiGGR
+    
+1. Rcwl - CWL needs to be installed. (this should be easy)
+
+        error: cwltool is not found, Please install cwltool first!
+        https://github.com/common-workflow-language/cwltool#install
+
+
+## Fixable issues / Maintainer issues
 
 1. samtools issues
 
-  1. seqbias
-  2. ReQON
-  3. ArrayExpressHTS
-  4. qrqc
+    1. seqbias
+    2. ReQON
+    3. ArrayExpressHTS
+    4. qrqc
 
-          pos_table.h:27:26: fatal error: samtools/sam.h: No such file or directory
-          #include "samtools/sam.h"
-                                  ^
-          compilation terminated.
-          /usr/local/lib/R/etc/Makeconf:166: recipe for target 'pos_table.o' failed
-          make: *** [pos_table.o] Error 1
-          ERROR: compilation failed for package ‘seqbias’
-          * removing ‘/root/shared/pkglibs/seqbias’
+    ```
+    pos_table.h:27:26: fatal error: samtools/sam.h: No such file or directory
+    #include "samtools/sam.h"
+                            ^
+    compilation terminated.
+    /usr/local/lib/R/etc/Makeconf:166: recipe for target 'pos_table.o' failed
+    make: *** [pos_table.o] Error 1
+    ERROR: compilation failed for package ‘seqbias’
+    * removing ‘/root/shared/pkglibs/seqbias’
+    ```
 
 1. bsseq - because `bsseq` fails to install a few packages fail
 
-          $bsseq
-          [1] "dmrseq"  "DSS"     "MIRA"    "scmeth"  "DMRcate" "kissDE"  "COCOA"
-          [8] "ChAMP"   "MEAL"
+    ```
+    bsseq
+    [1] "dmrseq"  "DSS"     "MIRA"    "scmeth"  "DMRcate" "kissDE"  "COCOA"
+    [8] "ChAMP"   "MEAL"
 
-          Warning: replacing previous import ‘DelayedArray::rowsum’ by ‘DelayedMatrixStats::rowsum’ when loading ‘bsseq’
-          Error: objects ‘rowsum’, ‘colsum’ are not exported by 'namespace:DelayedMatrixStats'
-          Execution halted
-          ERROR: lazy loading failed for package ‘bsseq’
-          removing ‘/root/shared/pkglibs/bsseq’
-
-1. mcaGUI (gWidgetsRGtk2 issue)
-
-          ERROR: dependency ‘gWidgetsRGtk2’ is not available for package ‘mcaGUI’
-          * removing ‘/root/shared/pkglibs/mcaGUI’
-
-1. EasyqpcR (gWidgetsRGtk2 issue)
-
-          ERROR: dependency ‘gWidgetsRGtk2’ is not available for package ‘EasyqpcR’
-          * removing ‘/root/shared/pkglibs/EasyqpcR’
-
-1. flowQB
-
-          ERROR: dependency ‘extremevalues’ is not available for package ‘flowQB’
-          * removing ‘/root/shared/pkglibs/flowQB’
+    Warning: replacing previous import ‘DelayedArray::rowsum’ by ‘DelayedMatrixStats::rowsum’ when loading ‘bsseq’
+    Error: objects ‘rowsum’, ‘colsum’ are not exported by 'namespace:DelayedMatrixStats'
+    Execution halted
+    ERROR: lazy loading failed for package ‘bsseq’
+    removing ‘/root/shared/pkglibs/bsseq’
+    ```
 
 1. CATALYST
 
-          Error : in method for ‘filter’ with signature ‘.data="daFrame"’:  arguments (‘.preserve’) after ‘...’	in the generic must appear in the method, in the same place at the end of the argument list
-          Error : unable to load R code in package ‘CATALYST’
-          ERROR: lazy loading failed for package ‘CATALYST’
-          * removing ‘/root/shared/pkglibs/CATALYST’
+    ```
+    Error : in method for ‘filter’ with signature ‘.data="daFrame"’:  arguments (‘.preserve’) after ‘...’	in the generic must appear in the method, in the same place at the end of the argument list
+    Error : unable to load R code in package ‘CATALYST’
+    ERROR: lazy loading failed for package ‘CATALYST’
+    * removing ‘/root/shared/pkglibs/CATALYST’
+    ```
 
 1. VanillaICE
 
@@ -150,23 +182,17 @@ fall into the `##Maintainer issues` sections automatically.
 
 1. ggbio
 
-  ggbio has a lot packages that depend on it.
-
-        > failed_deps <- tools::package_dependencies("ggbio", db=biocsoft, reverse=TRUE, recursive=TRUE)
-        > failed_deps
-        $ggbio
-         [1] "CAFE"              "derfinderPlot"     "FourCSeq"
-         [4] "gwascat"           "intansv"           "msgbsR"
-         [7] "Pi"                "R3CPET"            "Rariant"
-        [10] "ReportingTools"    "RiboProfiling"     "scruff"
-        [13] "SomaticSignatures" "vtpnet"            "affycoretools"
-        [16] "EnrichmentBrowser" "YAPSA"             "AgiMicroRna"
-        [19] "GSEABenchmarkeR"   "PathwaySplice"
-
-1. Rcwl - CWL needs to be installed. (this should be easy)
-
-        error: cwltool is not found, Please install cwltool first!
-        https://github.com/common-workflow-language/cwltool#install
+    ```
+    > failed_deps
+    ggbio
+     [1] "CAFE"              "derfinderPlot"     "FourCSeq"
+     [4] "gwascat"           "intansv"           "msgbsR"
+     [7] "Pi"                "R3CPET"            "Rariant"
+    [10] "ReportingTools"    "RiboProfiling"     "scruff"
+    [13] "SomaticSignatures" "vtpnet"            "affycoretools"
+    [16] "EnrichmentBrowser" "YAPSA"             "AgiMicroRna"
+    [19] "GSEABenchmarkeR"   "PathwaySplice"
+    ```
 
 1. Cardinal
 
