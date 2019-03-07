@@ -10,9 +10,6 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update \
 	&& apt-get install -y --no-install-recommends apt-utils
 
-RUN apt-get install -y dselect \
-	&& dselect update
-
 # Add BiocVersion
 RUN R -e "BiocManager::install(version='3.9')"
 
@@ -105,9 +102,10 @@ RUN cd /tmp \
 	&& cd libsbml-5.10.2 \
 	&& ./configure --enable-layout \
 	&& make \
-	&& make install \
-	&& cd /tmp \
-	&& rm -rf /tmp/libSBML-5.10.2-core-src.tar.gz /tmp/libSBML-5.10.2
+	&& make install
+
+RUN rm -rf /tmp/libsbml-5.10.2  \
+	&& rm -rf /tmp/libSBML-5.10.2-core-src.tar.gz
 
 ## Clean and rm
 RUN apt-get clean \
