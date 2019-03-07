@@ -98,6 +98,13 @@ RUN pip install sklearn \
 	pyyaml \
 	mpi4py
 
+## Add a new user after installing software
+RUN useradd -ms /bin/bash newuser
+
 ## Clean and rm
 RUN apt-get clean \
 	&& rm -rf /var/lib/apt/lists/*
+
+## Enter as newuser
+USER newuser
+WORKDIR /home/newuser
