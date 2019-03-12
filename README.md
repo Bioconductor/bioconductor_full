@@ -52,6 +52,41 @@ There are 16 packages which fail to install,
        ERROR: dependency ‘rsbml’ is not available for package ‘BiGGR’
        * removing ‘/root/shared/pkglibs/BiGGR’
 
+3. mcaGUI (gWidgetsRGtk2 issue)
+
+       ERROR: dependency ‘gWidgetsRGtk2’ is not available for package ‘mcaGUI’
+       * removing ‘/root/shared/pkglibs/mcaGUI’
+
+4. EasyqpcR (gWidgetsRGtk2 issue)
+
+       ERROR: dependency ‘gWidgetsRGtk2’ is not available for package ‘EasyqpcR’
+       * removing ‘/root/shared/pkglibs/EasyqpcR’
+
+5. cairoDevice
+
+6. flowQB
+
+       ERROR: dependency ‘extremevalues’ is not available for package ‘flowQB’
+       * removing ‘/root/shared/pkglibs/flowQB’
+
+   When trying to install 'extremevalues', package 'gWidgetstcltk' is
+   missing.
+
+       * installing *source* package ‘gWidgetstcltk’ ...
+       ** package ‘gWidgetstcltk’ successfully unpacked and MD5 sums checked
+       ** R
+       ** inst
+       ** byte-compile and prepare package for lazy loading
+       Warning: no DISPLAY variable so Tk is not available
+       Error in structure(.External(.C_dotTclObjv, objv), class = "tclObj") :
+       [tcl] invalid command name "font".
+
+       Error : unable to load R code in package ‘gWidgetstcltk’
+       ERROR: lazy loading failed for package ‘gWidgetstcltk’
+       * removing ‘/root/shared/pkglibs/gWidgetstcltk’
+       ERROR: dependency ‘gWidgetstcltk’ is not available for package ‘extremevalues’
+       * removing ‘/root/shared/pkglibs/extremevalues’
+
 ### Never install
 
 1. xps
@@ -95,45 +130,6 @@ There are 16 packages which fail to install,
 
            ERROR: dependencies ‘rbamtools’, ‘refGenome’ are not available for package ‘spliceSites’
            * removing ‘/root/shared/pkglibs/spliceSites’
-
-
-### Tough to fix
-
-3. mcaGUI (gWidgetsRGtk2 issue)
-
-       ERROR: dependency ‘gWidgetsRGtk2’ is not available for package ‘mcaGUI’
-       * removing ‘/root/shared/pkglibs/mcaGUI’
-
-4. EasyqpcR (gWidgetsRGtk2 issue)
-
-       ERROR: dependency ‘gWidgetsRGtk2’ is not available for package ‘EasyqpcR’
-       * removing ‘/root/shared/pkglibs/EasyqpcR’
-
-5. cairoDevice
-
-6. flowQB
-
-       ERROR: dependency ‘extremevalues’ is not available for package ‘flowQB’
-       * removing ‘/root/shared/pkglibs/flowQB’
-
-   When trying to install 'extremevalues', package 'gWidgetstcltk' is
-   missing.
-
-       * installing *source* package ‘gWidgetstcltk’ ...
-       ** package ‘gWidgetstcltk’ successfully unpacked and MD5 sums checked
-       ** R
-       ** inst
-       ** byte-compile and prepare package for lazy loading
-       Warning: no DISPLAY variable so Tk is not available
-       Error in structure(.External(.C_dotTclObjv, objv), class = "tclObj") :
-       [tcl] invalid command name "font".
-
-       Error : unable to load R code in package ‘gWidgetstcltk’
-       ERROR: lazy loading failed for package ‘gWidgetstcltk’
-       * removing ‘/root/shared/pkglibs/gWidgetstcltk’
-       ERROR: dependency ‘gWidgetstcltk’ is not available for package ‘extremevalues’
-       * removing ‘/root/shared/pkglibs/extremevalues’
-
 
 ### to fix (maintainer issue / missing dependency)
 
