@@ -88,7 +88,6 @@ RUN apt-get install -y --no-install-recommends \
 	jags \
 	tree \
 	## Additional resources
-	xvfb \
 	xfonts-100dpi \
 	xfonts-75dpi \
 	biber
@@ -108,9 +107,29 @@ RUN cd /tmp \
 	&& make \
 	&& make install
 
+## Clean libsbml
 RUN rm -rf /tmp/libSBML-5.10.2 \
 	&& rm -rf /tmp/libSBML-5.10.2-core-src.tar.gz
+
+## xvfb start with s6 overlay
+ADD https://github.com/just-containers/s6-overlay/releases/download/v1.21.8.0/s6-overlay-amd64.tar.gz /tmp/
+RUN tar xzf /tmp/s6-overlay-amd64.tar.gz -C /
+RUN apt-get update && apt-get install -y xvfb
+
+RUN mkdir -p /etc/services.d/xvfb/
+COPY ./deps/xvfb_init /etc/services.d/xvfb/run
 
 ## Clean and rm
 RUN apt-get clean \
 	&& rm -rf /var/lib/apt/lists/*
+
+## Add new user and make 'bioc' sudo,
+## Add library to install for 'bioc' user
+RUN useradd -ms /bin/bash -d /home/bioc bioc
+RUN echo "bioc:bioc" | chpasswd && adduser bioc sudo
+RUN mkdir -p /home/bioc/R/library && \
+        echo "R_LIBS=~/R/library" | cat > /home/bioc/.Renviron && \
+        echo "PATH=${PATH}:${MY_VEP}" | cat >> /home/bioc/.Renviron
+
+# Init command for s6-overlay
+CMD ["/init"]
