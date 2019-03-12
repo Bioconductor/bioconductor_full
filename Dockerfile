@@ -103,10 +103,6 @@ RUN cd /tmp \
 	&& make \
 	&& make install
 
-## Clean libsbml
-RUN rm -rf /tmp/libSBML-5.10.2 \
-	&& rm -rf /tmp/libSBML-5.10.2-core-src.tar.gz
-
 ## xvfb start with s6 overlay
 ADD https://github.com/just-containers/s6-overlay/releases/download/v1.21.8.0/s6-overlay-amd64.tar.gz /tmp/
 RUN tar xzf /tmp/s6-overlay-amd64.tar.gz -C /
@@ -114,6 +110,11 @@ RUN apt-get update && apt-get install -y xvfb
 
 RUN mkdir -p /etc/services.d/xvfb/
 COPY ./deps/xvfb_init /etc/services.d/xvfb/run
+
+## Clean libsbml, and tar.gz files
+RUN rm -rf /tmp/libsbml-5.10.2 \
+    && rm -rf /tmp/libSBML-5.10.2-core-src.tar.gz \
+    && rm -rf /tmp/s6-overlay-amd64.tar.gz
 
 ## Clean and rm
 RUN apt-get clean \
