@@ -124,9 +124,12 @@ RUN apt-get clean \
 ## Add library to install for 'bioc' user
 RUN useradd -ms /bin/bash -d /home/bioc bioc
 RUN echo "bioc:bioc" | chpasswd && adduser bioc sudo
+USER bioc
 RUN mkdir -p /home/bioc/R/library && \
         echo "R_LIBS=~/R/library" | cat > /home/bioc/.Renviron && \
         echo "PATH=${PATH}:${MY_VEP}" | cat >> /home/bioc/.Renviron
+
+USER root
 
 # Init command for s6-overlay
 CMD ["/init"]
