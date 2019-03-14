@@ -31,7 +31,7 @@ located at https://github.com/nturaga/gcloud_docker_install.
 		
 		mkdir shared-release-3-8
 
-3. Pull docker images from Dockerhub
+3. Pull docker images from Dockerhub (and update docker images)
 
 		sudo docker pull bioconductor/bioconductor_full:devel 
 		
@@ -103,7 +103,6 @@ Using gsutil:
 	gsutil iam ch allUsers:objectViewer gs://bioconductor-full-release-3-8
 	
 
-
 ## Sync packages to buckets from "shared" folder on each docker container
 
 
@@ -127,6 +126,41 @@ Update packages on the shared volume,
   Use a cron job to set this up.
 
 
+### script
+
+Put this script in a file `update_packages.R`
+
+```{r}
+## Make sure the library path is correct
+path <- ""/root/shared/pkglibs"
+.libPaths(path)
+
+## BiocManager out of date
+to_update <- rownames(BiocManager::valid()$out_of_date)
+
+## Install packages
+BiocManager::install(to_update, Ncpus = 4)
+```
 
 
+### Cron tab
 
+TODO: INSTALL cron on google VM
+
+```
+crontab -e
+```
+
+Add command to run at 9am everyday
+
+```
+0 9 * * * R -f update_packages.R
+```
+
+start cron service
+
+```
+service crond start
+
+service cond restart ## for restarting job
+```
