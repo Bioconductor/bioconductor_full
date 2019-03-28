@@ -13,17 +13,27 @@ Instance details:
 
 	OS: Debian 9
 
-* Install Docker on this machine and other tools needed using the
-[script](https://github.com/nturaga/gcloud_docker_install/blob/master/docker_install.sh),
-located at https://github.com/nturaga/gcloud_docker_install.
+	Boot disk Type: Standard persistant disk
+
+	Boot disk Size: 200 GB
 
 * Make sure access to Google Storage is given under "Cloud API access
-  scopes", to "Read/Write" (if not "full").
+  scopes", to "full". If the access is set only "Read/Write" you will
+  get an `AccessDeniedException` to **rsync** the bucket with the VM
+  instance.
 
+  Eg:
+
+		AccessDeniedException: 403 250475993726-compute@developer.gserviceaccount.com does not have storage.objects.get access to bioconductor-full-devel/AUCell/examples/example_aucellResults_class.R.
 
 #### VM setup
 
 1. Install docker on the machine based on Debian 9.
+
+   Install Docker on this machine and other tools needed using the
+   [script](https://github.com/nturaga/gcloud_docker_install/blob/master/docker_install.sh)
+   ,located at https://github.com/nturaga/gcloud_docker_install.
+
 
 2. Make two folders, under home directory,
 
@@ -61,26 +71,52 @@ located at https://github.com/nturaga/gcloud_docker_install.
    NOTE: Use `tmux` to start the containers and keep them running as a
    background process. Or just use the `-d` option
 
-		docker run
-			-it
+		sudo docker run -it
 			-d
-			-v <path>/shared-devel:/home/shared-release-3-8
+			-v /home/nitesh_turaga_gmail_com/shared-release-3-8:/home/shared-release-3-8
 			--entrypoint /bin/bash
 			bioconductor/bioconductor_full:RELEASE_3_8
 
-	To attach to the "RUNNING" docker container to inspect what's going on,
+		sudo docker run -it
+			-d
+			-v /home/nitesh_turaga_gmail_com/shared-devel/:/home/shared-devel
+			--entrypoint /bin/bash
+			bioconductor/bioconductor_full:devel
+
+5. Check which containers are running
+
+```
+CONTAINER ID        IMAGE                                        COMMAND             CREATED             STATUS              PORTS               NAMES
+1a672ced3aac        bioconductor/bioconductor_full:RELEASE_3_8   "/bin/bash"         59 seconds ago      Up 58 seconds       8787/tcp            zealous_hugle
+1e854e70a941        bioconductor/bioconductor_full:devel         "/bin/bash"         4 minutes ago       Up 4 minutes        8787/tcp            suspicious_fermat
+```
+
+6. To attach to the "RUNNING" docker container to inspect what's going on,
 
 		docker exec -it <container_name> bash
 
+	RELEASE
 
-5. Check that both containers are working,
+		sudo docker exec -it 1a672ced3aac bash
 
-		sudo docker ps
+	DEVEL
 
-6. To install the **first** time, run the `to_install.R` script.
+		sudo docker exec -it 1e854e70a941 bash
+
+7. To install the **first** time, run the `to_install.R` script.
 
 
 ## Google buckets
+
+No authentication is required for the google buckets. Since it's on
+the same "bioconductor-anvil" you can check to see which buckets are
+available.
+
+Try
+
+	$ gsutil ls
+	gs://bioconductor-full-devel/
+	gs://bioconductor-full-release-3-8/
 
 There will be two google buckets,
 
@@ -91,7 +127,6 @@ There will be two google buckets,
 2. bioconductor-full-release-3-8
 
 	Multi-Regional
-
 
 Both the buckets will be made publicly "readable"
 (https://cloud.google.com/storage/docs/access-control/making-data-public).
@@ -105,7 +140,6 @@ Using gsutil:
 
 ## Sync packages to buckets from "shared" folder on each docker container
 
-
 Update packages on the shared volume,
 
 * Find packages out of date
@@ -116,16 +150,17 @@ Update packages on the shared volume,
 
 		BiocManager::install(to_install)
 
-* Then, OVERWRITE the packages on the google bucket with the latest
-  packages,
-
-  Don't use  `gsutil cp`
-
-		gsutil -m cp -r shared-devel/new_packages gs://bioconductor-full-devel
-
  Use `rsync` instead of `cp`
 
 		gsutil -m rsync -r shared-devel gs://bioconductor-full-devel
+
+	DEVEL
+
+		nitesh_turaga_gmail_com@bioconductor-full-manager:~/shared-devel$ gsutil -m rsync -r gs://bioconductor-full-devel/ .
+
+	RELEASE_3_8
+
+
 
   Use a cron job to set this up.
 
