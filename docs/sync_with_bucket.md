@@ -147,47 +147,42 @@ Same with RELEASE_3_8
 
 	-m option typically will provide a large performance boost if either the source or destination (or both) is a cloud URL. If both source and destination are file URLs the -m option will typically thrash the disk and slow synchronization down.
 
-## Update packages on the shared volume
+## Update packages on the shared volume (run as cron tab)
+
+#### Script `update_packages.R`
+
+	library(BiocManager)
+	BiocManager::install(valid()$out_of_date, Ncpus=4)
+
+#### For the Devel images
+
+Script located in `cron-scripts/run_devel.sh`
 
 * Packages can be updated on the Docker image using,
 
-	sudo docker run -it -v /home/nitesh_turaga_gmail_com/shared-devel:/usr/local/lib/R/host-site-library bioconductor/bioconductor_full:devel R -e 'BiocManager::install(BiocManager::valid()$out_of_date)'
+		sudo docker run 
+			-it 
+			-v /home/nitesh_turaga_gmail_com/shared-devel:/usr/local/lib/R/host-site-library 
+			bioconductor/bioconductor_full:devel R -f update_packages.R
 
-* Find packages out of date
+* Run rsync
 
-		to_install <- rownames(BiocManager::valid()$out_of_date)
+		gsutil -m rsync -d -r shared-devel/ gs://bioconductor-full-devel
 
-* Install packages out of date
+#### For the RELEASE images
 
-		BiocManager::install(to_install)
+Script located in `cron-scripts/run_release-3-8.sh`
 
-	DEVEL
+* Packages can be updated on the Docker image using,
 
-		nitesh_turaga_gmail_com@bioconductor-full-manager:~/shared-devel$ gsutil -m rsync -r gs://bioconductor-full-devel/ .
+		sudo docker run 
+			-it 
+			-v /home/nitesh_turaga_gmail_com/shared-release-3-8:/usr/local/lib/R/host-site-library 
+			bioconductor/bioconductor_full:release-3-8 R -f update_packages.R
 
-	RELEASE_3_8
+* Run rsync
 
-
-
-  Use a cron job to set this up.
-
-
-### script
-
-Put this script in a file `update_packages.R`
-
-```{r}
-## Make sure the library path is correct
-path <- ""/root/shared/pkglibs"
-.libPaths(path)
-
-## BiocManager out of date
-to_update <- rownames(BiocManager::valid()$out_of_date)
-
-## Install packages
-BiocManager::install(to_update, Ncpus = 4)
-```
-
+		gsutil -m rsync -d -r shared-release-3-8/ gs://bioconductor-full-release-3-8
 
 ### Cron tab
 
