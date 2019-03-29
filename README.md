@@ -1,162 +1,123 @@
-# RELEASE_3_8 Docker image
+# Bioconductor RELEASE_3_8 Docker image
 
+Bioconductor Docker image with full set of system dependencies so that
+all Bioconductor packages can be installed.
 
-The following script installs all packages in the Docker image.
+The Docker images have R and Bioconductor with different versions
+under each "branch" in git.
 
-```
-test.lib <- "/root/shared-RELEASE_3_8/pkglibs"
+**NOTE**: Docker image for bioconductor_full:devel is in the `master`
+branch, and all the release branches will be under the branch
+`RELEASE_X_Y`.
 
-if (!dir.exists(test.lib))
-       	dir.create(test.lib)
+Important Links:
 
-.libPaths(c(test.lib, .libPaths()[length(.libPaths())]))
+[Docker hub link for bioconductor_full](https://cloud.docker.com/u/bioconductor/repository/registry-1.docker.io/bioconductor/bioconductor_full)
 
-install.packages("BiocManager", repos = "https://cran.r-project.org")
-BiocManager::install(version="3.8", ask=FALSE)
+[Github development link for bioconductor_full](https://github.com/Bioconductor/bioconductor_full)
 
-biocsoft <- available.packages(repos = BiocManager::repositories()[["BioCsoft"]])
+## Advantages of the `bioconductor_full` docker image
 
-BiocManager::install(rownames(biocsoft), Ncpus=4, ask=FALSE)
-```
+1. The bioconductor_full docker images can be used instead of installing
+complex dependencies needed for Bioconductor packages. The image comes
+with most of the dependencies installed.
 
-After running the script,
+1. Quick start up to start your analysis with all the Bioconductor
+   packages if needed.
 
-```
-.libPaths(c("shared/pkglibs/", .libPaths()))
+1. The image will be regularly updated to reflect the build system on
+   Bioconductor. This is a very useful resource for maintainers who
+   are actively developing their package to see if it works in tandem
+   with the bioconductor ecosystem. It provides a local testing outlet
+   for maintainers and developers.
 
-installed <- rownames(installed.packages())
-biocsoft <- available.packages(repos = BiocManager::repositories()[["BioCsoft"]])
+## Installation and quick start
 
-## Packages which failed to install on docker image
-to_install <- rownames(biocsoft)[!rownames(biocsoft) %in% installed]
-```
+This document assumes you have [docker](https://www.docker.com/)
+installed. Please check
+[installation](https://www.docker.com/products/docker-desktop) if you
+have more questions regarding this.
 
-There are 16 packages which fail to install,
+### Quick start
 
-```
-> to_install
- [1] "bgx"         "BiGGR"       "CATALYST"    "ccfindR"     "dSimer"
- [6] "EasyqpcR"    "flipflop"    "flowQB"      "MACPET"      "mcaGUI"
-[11] "NADfinder"   "NGScopy"     "rsbml"       "scruff"      "spliceSites"
-[16] "xps"
-```
+* Start docker on your machine.
 
-## Packages
+* On the command line, "pull" the bioconductor_full docker image with
+  the correct tag. These images are hosted on docker hub under the
+  Bioconductor organization page, located at this [link](https://cloud.docker.com/u/bioconductor/repository/registry-1.docker.io/bioconductor/bioconductor_full).
 
-## Fixed
+		docker pull bioconductor/bioconductor_full:devel
 
-1. rsbml - libsbml (dependency)
+	or
 
-2. BiGGR
+		docker pull bioconductor/bioconductor_full:RELEASE_X_Y
 
-       ERROR: dependency ‘rsbml’ is not available for package ‘BiGGR’
-       * removing ‘/root/shared/pkglibs/BiGGR’
+* Once the image is available on your local machine, you can check to
+  see if they are available.
 
-3. mcaGUI (gWidgetsRGtk2 issue)
+		docker images
 
-       ERROR: dependency ‘gWidgetsRGtk2’ is not available for package ‘mcaGUI’
-       * removing ‘/root/shared/pkglibs/mcaGUI’
+* To start using these images with RStudio, this will start the image
+  under the 'rstudio' user
 
-4. EasyqpcR (gWidgetsRGtk2 issue)
+		docker run
+			-p 8787:8787
+			-v <local/path/host-site-repositories>:/
+			bioconductor/bioconductor_full:RELEASE_3_8
 
-       ERROR: dependency ‘gWidgetsRGtk2’ is not available for package ‘EasyqpcR’
-       * removing ‘/root/shared/pkglibs/EasyqpcR’
+* To start the image interactively using the `bioc` user
 
-5. cairoDevice
+		docker run
+			-it
+			--user bioc
+			-v <local/path/R-libraries>:/usr/local/lib/R/host-site-library
+			bioconductor/bioconductor_full:RELEASE_3_8
 
-6. flowQB
+	NOTE: The path `/usr/local/lib/R/host-site-library` is mapped to
+	`.libPaths()` in R. So, when R is started, all the libraries in
+	the directory, `/usr/local/lib/R/host-site-library` is available
+	to R. It is stored on your machine mounted from the volume you
+	fill in place of `<local/path/R-libraries>`.
 
-       ERROR: dependency ‘extremevalues’ is not available for package ‘flowQB’
-       * removing ‘/root/shared/pkglibs/flowQB’
+	These libraries will only work if they are pre-compiled with the
+	same version of R that is in the docker image. To explain further,
+	you would need the packages built with Bioconductor version '3.9'
+	to work with R-3.6. Similarly, you'd need Bioconductor version
+	'3.8' to work with R-3.5.z.
 
-   When trying to install 'extremevalues', package 'gWidgetstcltk' is
-   missing.
+* To start the docker image in deamon mode, i.e, have the container
+  running in the background use the `-d` option.
 
-       * installing *source* package ‘gWidgetstcltk’ ...
-       ** package ‘gWidgetstcltk’ successfully unpacked and MD5 sums checked
-       ** R
-       ** inst
-       ** byte-compile and prepare package for lazy loading
-       Warning: no DISPLAY variable so Tk is not available
-       Error in structure(.External(.C_dotTclObjv, objv), class = "tclObj") :
-       [tcl] invalid command name "font".
+		sudo docker run -it
+			-d
+			-v /host-site-libraries:/usr/local/lib/R/host-site-libraries
+			--entrypoint /bin/bash
+			bioconductor/bioconductor_full:RELEASE_3_8
 
-       Error : unable to load R code in package ‘gWidgetstcltk’
-       ERROR: lazy loading failed for package ‘gWidgetstcltk’
-       * removing ‘/root/shared/pkglibs/gWidgetstcltk’
-       ERROR: dependency ‘gWidgetstcltk’ is not available for package ‘extremevalues’
-       * removing ‘/root/shared/pkglibs/extremevalues’
+	This will start the container in the background and keep it
+	running. You may check the running processes using `docker ps`,
+	and copy the container id.
 
-### Never install
+		docker ps
+
+	To attach to a container which is running in the background
+
+		docker exec -it <container_id> bash
+
+	NOTE: You can replace `bash` with R to start R directly in the
+	container.
+
+		docker exec -it <container_id> R
+
+## Issues in the devel image
+
+### Packages which will never install
 
 1. xps
 
-2. ccfindR  (Rmpi)
+1. Rmpi
 
-        ERROR: dependency ‘Rmpi’ is not available for package ‘ccfindR’
-        - removing ‘/root/shared/pkglibs/ccfindR’
+1. ccfindR
 
-   Because of this `ccfindR` won't install.
-
-3. dependencies ‘rbamtools’, ‘refGenome’ are not available
-
-        Warning message:
-        package ‘rbamtools’ is not available (for R version 3.5.2)
-
-        Warning message:
-        package ‘refGenome’ is not available (for R version 3.5.2)
-
-  1. MACPET (not available)
-
-           ERROR: dependency ‘rbamtools’ is not available for package ‘MACPET’
-           * removing ‘/root/shared/pkglibs/MACPET’
-
-  1. NADfinder (not available)
-
-           ERROR: dependency ‘rbamtools’ is not available for package ‘NADfinder’
-           * removing ‘/root/shared/pkglibs/NADfinder’
-
-  1. NGScopy (not available)
-
-           ERROR: dependency ‘rbamtools’ is not available for package ‘NGScopy’
-           * removing ‘/root/shared/pkglibs/NGScopy’
-
-  1. scruff
-
-           ERROR: dependency ‘refGenome’ is not available for package ‘scruff’
-           * removing ‘/root/shared/pkglibs/scruff’
-
-  1. spliceSites
-
-           ERROR: dependencies ‘rbamtools’, ‘refGenome’ are not available for package ‘spliceSites’
-           * removing ‘/root/shared/pkglibs/spliceSites’
-
-### to fix (maintainer issue / missing dependency)
-
-1. bgx
-
-       Makevars:14: recipe for target 'bgx.o' failed
-       make: *** [bgx.o] Error 1
-       ERROR: compilation failed for package ‘bgx’
-       * removing ‘/root/shared/pkglibs/bgx’
-
-2. CATALYST
-
-       Error : in method for ‘filter’ with signature ‘.data="daFrame"’:  arguments (‘.preserve’) after ‘...’	in the generic must appear in the method, in the same place at the end of the argument list
-       Error : unable to load R code in package ‘CATALYST’
-       ERROR: lazy loading failed for package ‘CATALYST’
-       * removing ‘/root/shared/pkglibs/CATALYST’
-
-3. dSimer
-
-       /usr/local/lib/R/etc/Makeconf:171: recipe for target 'BOG.o' failed
-       make: *** [BOG.o] Error 1
-       ERROR: compilation failed for package ‘dSimer’
-       * removing ‘/root/shared/pkglibs/dSimer’
-
-4. flipflop
-
-       /usr/local/lib/R/etc/Makeconf:171: recipe for target 'align.o' failed
-       make: *** [align.o] Error 1
-       ERROR: compilation failed for package ‘flipflop’
-       * removing ‘/root/shared/pkglibs/flipflop’
+For more information on the issues for this image, please check
+`issues.md`
