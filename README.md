@@ -8,7 +8,7 @@ under each "branch" in git.
 
 **NOTE**: Docker image for bioconductor_full:devel is in the `master`
 branch, and all the release branches will be under the branch
-`RELEASE_XY`.
+`RELEASE_X_Y`.
 
 Important Links:
 
@@ -92,20 +92,20 @@ have more questions regarding this.
 			-d
 			-v /host-site-libraries:/usr/local/lib/R/host-site-libraries
 			--entrypoint /bin/bash
-			bioconductor/bioconductor_full:RELEASE_3_8
+			bioconductor/bioconductor_full:devel
 
-	This will start the container in the background and keep it
-	running. You may check the running processes using `docker ps`,
-	and copy the container id.
+  This will start the container in the background and keep it
+  running. You may check the running processes using `docker ps`,
+  and copy the container id.
 
 		docker ps
 
-	To attach to a container which is running in the background
+  To attach to a container which is running in the background
 
 		docker exec -it <container_id> bash
 
-	NOTE: You can replace `bash` with R to start R directly in the
-	container.
+  NOTE: You can replace `bash` with R to start R directly in the
+  container.
 
 		docker exec -it <container_id> R
 
