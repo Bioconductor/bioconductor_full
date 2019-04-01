@@ -1,5 +1,7 @@
 # Bioconductor Devel Docker image
 
+This repository was previously known `bioconductor_full`.
+
 Bioconductor Docker image with full set of system dependencies so that
 all Bioconductor packages can be installed.
 
