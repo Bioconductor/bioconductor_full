@@ -6,4 +6,4 @@ sudo docker run -it \
      R -f /tmp/update_packages.R
 
 # Run rsync
-gsutil -m rsync -d -r shared-release-3-8/ gs://bioconductor-full-release-3-8
+gsutil -m rsync -d -r /home/nitesh_turaga_gmail_com/shared-release-3-8/ gs://bioconductor-full-release-3-8

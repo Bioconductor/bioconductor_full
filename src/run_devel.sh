@@ -6,4 +6,4 @@ sudo docker run -it \
      R -f /tmp/update_packages.R
 
 # Run rsync
-gsutil -m rsync -d -r shared-devel/ gs://bioconductor-full-devel
+gsutil -m rsync -d -r /home/nitesh_turaga_gmail_com/shared-devel/ gs://bioconductor-full-devel
