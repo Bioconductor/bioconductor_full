@@ -1,7 +1,7 @@
 # Run update
 sudo docker run -it \
      -v /home/nitesh_turaga_gmail_com/shared-release-3-8:/usr/local/lib/R/host-site-library \
-     -v /home/nitesh_turaga_gmail_com/AnVIL_Docker/src/update_packages.R:/tmp/update_packages.R \
+     -v /home/nitesh_turaga_gmail_com/bioconductor_full/src/update_packages.R:/tmp/update_packages.R \
      bioconductor/bioconductor_full:RELEASE_3_8 \
      R -f /tmp/update_packages.R
 
