@@ -1,4 +1,4 @@
-# Bioconductor Devel Docker image
+# Bioconductor RELEASE_3_9 Docker image
 
 Bioconductor Docker image with full set of system dependencies so that
 all Bioconductor packages can be installed.
@@ -63,7 +63,7 @@ have more questions regarding this.
 		docker run
 			-p 8787:8787
 			-v <local/path/host-site-repositories>:/
-			bioconductor/bioconductor_full:devel
+			bioconductor/bioconductor_full:RELEASE_3_9
 
 * To start the image interactively using the `bioc` user
 
@@ -71,7 +71,7 @@ have more questions regarding this.
 			-it
 			--user bioc
 			-v <local/path/R-libraries>:/usr/local/lib/R/host-site-library
-			bioconductor/bioconductor_full:devel
+			bioconductor/bioconductor_full:RELEASE_3_9
 
 	NOTE: The path `/usr/local/lib/R/host-site-library` is mapped to
 	`.libPaths()` in R. So, when R is started, all the libraries in
@@ -81,9 +81,9 @@ have more questions regarding this.
 
 	These libraries will only work if they are pre-compiled with the
 	same version of R that is in the docker image. To explain further,
-	you would need the packages built with Bioconductor version '3.9'
+	you would need the packages built with Bioconductor version '3.10'
 	to work with R-3.6. Similarly, you'd need Bioconductor version
-	'3.8' to work with R-3.5.z.
+	'3.9' to work with R-3.6.z.
 
 * To start the docker image in deamon mode, i.e, have the container
   running in the background use the `-d` option.
@@ -92,23 +92,22 @@ have more questions regarding this.
 			-d
 			-v /host-site-libraries:/usr/local/lib/R/host-site-libraries
 			--entrypoint /bin/bash
-			bioconductor/bioconductor_full:devel
+			bioconductor/bioconductor_full:RELEASE_3_9
 
-  This will start the container in the background and keep it
-  running. You may check the running processes using `docker ps`,
-  and copy the container id.
+	This will start the container in the background and keep it
+	running. You may check the running processes using `docker ps`,
+	and copy the container id.
 
 		docker ps
 
-  To attach to a container which is running in the background
+	To attach to a container which is running in the background
 
 		docker exec -it <container_id> bash
 
-  NOTE: You can replace `bash` with R to start R directly in the
-  container.
+	NOTE: You can replace `bash` with R to start R directly in the
+	container.
 
 		docker exec -it <container_id> R
-
 
 ## Issues in the devel image
 
