@@ -1,4 +1,4 @@
-FROM bioconductor/devel_base2:latest
+FROM bioconductor/release_base2:latest
 
 MAINTAINER nitesh.turaga@roswellpark.org
 
@@ -10,8 +10,11 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update \
 	&& apt-get install -y --no-install-recommends apt-utils
 
+RUN apt-get install -y dselect \
+	&& dselect update
+
 # Add BiocVersion
-RUN R -e "BiocManager::install(version='3.10')"
+RUN R -e "BiocManager::install(version='3.9')"
 
 # This section installs tools for other software
 RUN apt-get install -y --no-install-recommends \
