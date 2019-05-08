@@ -11,7 +11,7 @@ RUN apt-get update \
 	&& apt-get install -y --no-install-recommends apt-utils
 
 # Add BiocVersion
-RUN R -e "BiocManager::install(version='3.9')"
+RUN R -e "BiocManager::install(version='3.10')"
 
 # This section installs tools for other software
 RUN apt-get install -y --no-install-recommends \
