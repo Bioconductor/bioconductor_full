@@ -83,7 +83,7 @@ have more questions regarding this.
 	same version of R that is in the docker image. To explain further,
 	you would need the packages built with Bioconductor version '3.9'
 	to work with R-3.6. Similarly, you'd need Bioconductor version
-	'3.8' to work with R-3.5.z.
+	'3.9' to work with R-3.6.z.
 
 * To start the docker image in deamon mode, i.e, have the container
   running in the background use the `-d` option.
