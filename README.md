@@ -64,7 +64,7 @@ This document assumes you have [docker][] installed. Please check
         docker run                                      \
             -e PASSWORD=your_password                   \
             -p 8787:8787                                \
-            -v host-site-library:/usr/local/lib/R/host-site-library \
+            -v ~/host-site-library:/usr/local/lib/R/host-site-library \
             bioconductor/bioconductor_full:devel
 
 * To start the image interactively using the `bioc` user
@@ -72,7 +72,7 @@ This document assumes you have [docker][] installed. Please check
         docker run                                     \
             -it                                        \
             --user bioc                                \
-            -v host-site-library:/usr/local/lib/R/host-site-library \
+            -v ~/host-site-library:/usr/local/lib/R/host-site-library \
             bioconductor/bioconductor_full:devel       \
 
     NOTE: The path `/usr/local/lib/R/host-site-library` is mapped to
