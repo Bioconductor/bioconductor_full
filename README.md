@@ -1,5 +1,11 @@
 # Bioconductor RELEASE_3_8 Docker image
 
+[![https://www.singularity-hub.org/static/img/hosted-singularity--hub-%23e32929.svg](https://www.singularity-hub.org/static/img/hosted-singularity--hub-%23e32929.svg)](https://singularity-hub.org/collections/3154)
+
+[![](https://images.microbadger.com/badges/version/bioconductor/bioconductor_full:RELEASE_3_8.svg)](https://microbadger.com/images/bioconductor/bioconductor_full:RELEASE_3_8 "Get your own version badge on microbadger.com")
+
+[![](https://images.microbadger.com/badges/license/bioconductor/bioconductor_full:RELEASE_3_8.svg)](https://microbadger.com/images/bioconductor/bioconductor_full:RELEASE_3_8 "Get your own license badge on microbadger.com")
+
 Bioconductor Docker image with full set of system dependencies so that
 all Bioconductor packages can be installed.
 
