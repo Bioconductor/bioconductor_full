@@ -33,10 +33,11 @@ with most of the dependencies installed.
 
 ## Installation and quick start
 
-This document assumes you have [docker](https://www.docker.com/)
-installed. Please check
-[installation](https://www.docker.com/products/docker-desktop) if you
-have more questions regarding this.
+This document assumes you have [docker][] installed. Please check
+[installation][] if you have more questions regarding this.
+
+[docker]: https://www.docker.com/
+[installation]: https://www.docker.com/products/docker-desktop
 
 ### Quick start
 
@@ -44,70 +45,71 @@ have more questions regarding this.
 
 * On the command line, "pull" the bioconductor_full docker image with
   the correct tag. These images are hosted on docker hub under the
-  Bioconductor organization page, located at this [link](https://cloud.docker.com/u/bioconductor/repository/registry-1.docker.io/bioconductor/bioconductor_full).
+  [Bioconductor organization][] page.
+  
+        docker pull bioconductor/bioconductor_full:devel
 
-		docker pull bioconductor/bioconductor_full:devel
+    or
 
-	or
-
-		docker pull bioconductor/bioconductor_full:RELEASE_X_Y
+        docker pull bioconductor/bioconductor_full:RELEASE_X_Y
 
 * Once the image is available on your local machine, you can check to
   see if they are available.
 
-		docker images
+        docker images
 
 * To start using these images with RStudio, this will start the image
   under the 'rstudio' user
 
-		docker run
-			-p 8787:8787
-			-v <local/path/host-site-repositories>:/
-			bioconductor/bioconductor_full:devel
+        docker run                                      \
+            -e PASSWORD=your_password                   \
+            -p 8787:8787                                \
+            -v ~/host-site-library:/usr/local/lib/R/host-site-library \
+            bioconductor/bioconductor_full:devel
 
 * To start the image interactively using the `bioc` user
 
-		docker run
-			-it
-			--user bioc
-			-v <local/path/R-libraries>:/usr/local/lib/R/host-site-library
-			bioconductor/bioconductor_full:devel
+        docker run                                     \
+            -it                                        \
+            --user bioc                                \
+            -v ~/host-site-library:/usr/local/lib/R/host-site-library \
+            bioconductor/bioconductor_full:devel       \
 
-	NOTE: The path `/usr/local/lib/R/host-site-library` is mapped to
-	`.libPaths()` in R. So, when R is started, all the libraries in
-	the directory, `/usr/local/lib/R/host-site-library` is available
-	to R. It is stored on your machine mounted from the volume you
-	fill in place of `<local/path/R-libraries>`.
+    NOTE: The path `/usr/local/lib/R/host-site-library` is mapped to
+    `.libPaths()` in R. So, when R is started, all the libraries in
+    the host directory, `host-site-library` are available to R. It is
+    stored on your machine mounted from the volume you fill in place
+    of `host-site-library`.
 
-	These libraries will only work if they are pre-compiled with the
-	same version of R that is in the docker image. To explain further,
-	you would need the packages built with Bioconductor version '3.9'
-	to work with R-3.6. Similarly, you'd need Bioconductor version
-	'3.9' to work with R-3.6.z.
+    These libraries will only work if they are pre-compiled with the
+    same version of R that is in the docker image. To explain further,
+    you would need the packages built with Bioconductor version '3.9'
+    to work with R-3.6. Similarly, you'd need Bioconductor version
+    '3.9' to work with R-3.6.z.
 
 * To start the docker image in deamon mode, i.e, have the container
   running in the background use the `-d` option.
 
-		sudo docker run -it
-			-d
-			-v /host-site-libraries:/usr/local/lib/R/host-site-libraries
-			--entrypoint /bin/bash
-			bioconductor/bioconductor_full:devel
+        sudo docker run -it                            \
+            -d                                         \
+            -v host-site-library:/usr/local/lib/R/host-site-library \
+            --entrypoint /bin/bash                     \
+            bioconductor/bioconductor_full:devel
 
   This will start the container in the background and keep it
   running. You may check the running processes using `docker ps`,
   and copy the container id.
 
-		docker ps
+        docker ps
 
   To attach to a container which is running in the background
 
-		docker exec -it <container_id> bash
+        docker exec -it <container_id> bash
 
   NOTE: You can replace `bash` with R to start R directly in the
   container.
 
-		docker exec -it <container_id> R
+        docker exec -it <container_id> R
 
 
 ## Issues in the devel image
@@ -122,3 +124,6 @@ have more questions regarding this.
 
 For more information on the issues for this image, please check
 `issues.md`
+
+[Bioconductor organization]: https://cloud.docker.com/u/bioconductor/repository/registry-1.docker.io/bioconductor/bioconductor_full
+
