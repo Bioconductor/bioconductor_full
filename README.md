@@ -125,5 +125,13 @@ This document assumes you have [docker][] installed. Please check
 For more information on the issues for this image, please check
 `issues.md`
 
-[Bioconductor organization]: https://cloud.docker.com/u/bioconductor/repository/registry-1.docker.io/bioconductor/bioconductor_full
 
+## Singularity
+
+Bioconductor provides singularity hub images. The files Singularity, Singularity.RELEASE_3_8, Singularity.RELEASE_3_9 allow the images to build on Singularity hub.
+
+Find the singularity hub images, and download them by https://www.singularity-hub.org/collections/3154/usage
+
+	singularity pull shub://Bioconductor/bioconductor_full
+
+[Bioconductor organization]: https://cloud.docker.com/u/bioconductor/repository/registry-1.docker.io/bioconductor/bioconductor_full
