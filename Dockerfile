@@ -88,11 +88,11 @@ RUN apt-get install -y --no-install-recommends \
 	biber
 
 # Install sklearn and pandas on python
-RUN pip install sklearn \
+RUN pip install wheel
+
+RUN pip install	sklearn \
 	pandas \
-	pyyaml \
-	mpi4py \
-	cwltool
+	pyyaml 
 
 # Install libsbml
 RUN cd /tmp \
@@ -105,16 +105,17 @@ RUN cd /tmp \
 
 ## xvfb start with s6 overlay
 ADD https://github.com/just-containers/s6-overlay/releases/download/v1.21.8.0/s6-overlay-amd64.tar.gz /tmp/
-RUN tar xzf /tmp/s6-overlay-amd64.tar.gz -C /
-RUN apt-get update && apt-get install -y xvfb
+RUN tar xzf /tmp/s6-overlay-amd64.tar.gz -C / \
+	&& apt-get update && apt-get install -y --no-install-recommends xvfb \
+	&& rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /etc/services.d/xvfb/
 COPY ./deps/xvfb_init /etc/services.d/xvfb/run
 
 ## Clean libsbml, and tar.gz files
 RUN rm -rf /tmp/libsbml-5.10.2 \
-    && rm -rf /tmp/libSBML-5.10.2-core-src.tar.gz \
-    && rm -rf /tmp/s6-overlay-amd64.tar.gz
+	&& rm -rf /tmp/libSBML-5.10.2-core-src.tar.gz \
+	&& rm -rf /tmp/s6-overlay-amd64.tar.gz
 
 ## Clean and rm
 RUN apt-get clean \
