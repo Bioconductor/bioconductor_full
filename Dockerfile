@@ -85,14 +85,17 @@ RUN apt-get install -y --no-install-recommends \
 	## Additional resources
 	xfonts-100dpi \
 	xfonts-75dpi \
-	biber
+	biber \
+	python-dev
 
-# Install sklearn and pandas on python
+# pip wheel needs to be installed on a seperate layer
 RUN pip install wheel
 
-RUN pip install	sklearn \
+# Install sklearn and pandas on python
+RUN pip install sklearn \
 	pandas \
-	pyyaml 
+	pyyaml \
+	cwltool
 
 # Install libsbml
 RUN cd /tmp \
