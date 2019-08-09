@@ -6,15 +6,13 @@ MAINTAINER nitesh.turaga@roswellpark.org
 # 'debconf: unable to initialize frontend: Dialog'
 ENV DEBIAN_FRONTEND noninteractive
 
-# Update apt-get
-RUN apt-get update \
-	&& apt-get install -y --no-install-recommends apt-utils
-
 # Add BiocVersion
 RUN R -e "BiocManager::install(version='3.10')"
 
-# This section installs tools for other software
-RUN apt-get install -y --no-install-recommends \
+# Update apt-get
+RUN apt-get update \
+	&& apt-get install -y --no-install-recommends apt-utils \
+	&& apt-get install -y --no-install-recommends \
 	pkg-config \
 	fortran77-compiler \
 	byacc \
@@ -86,43 +84,43 @@ RUN apt-get install -y --no-install-recommends \
 	xfonts-100dpi \
 	xfonts-75dpi \
 	biber \
-	python-dev
+	&& apt-get clean \
+	&& rm -rf /var/lib/apt/lists/*
 
-# pip wheel needs to be installed on a seperate layer
-RUN pip install wheel
-
-# Install sklearn and pandas on python
-RUN pip install sklearn \
+## Python installations
+RUN apt-get update \
+	&& apt-get -y --no-install-recommends install python-dev \
+	&& pip install wheel \
+        ## Install sklearn and pandas on python
+	&& pip install sklearn \
 	pandas \
 	pyyaml \
-	cwltool
+	cwltool \
+	&& apt-get clean \
+	&& rm -rf /var/lib/apt/lists/*
 
-# Install libsbml
+# Install libsbml and xvfb
 RUN cd /tmp \
+        ## libsbml
 	&& curl -O https://s3.amazonaws.com/linux-provisioning/libSBML-5.10.2-core-src.tar.gz \
 	&& tar zxf libSBML-5.10.2-core-src.tar.gz \
 	&& cd libsbml-5.10.2 \
 	&& ./configure --enable-layout \
 	&& make \
-	&& make install
-
-## xvfb start with s6 overlay
-ADD https://github.com/just-containers/s6-overlay/releases/download/v1.21.8.0/s6-overlay-amd64.tar.gz /tmp/
-RUN tar xzf /tmp/s6-overlay-amd64.tar.gz -C / \
+	&& make install \
+	## xvfb install
+	&& cd /tmp \
+	&& curl -SL https://github.com/just-containers/s6-overlay/releases/download/v1.21.8.0/s6-overlay-amd64.tar.gz | tar -xzC / \
 	&& apt-get update && apt-get install -y --no-install-recommends xvfb \
-	&& rm -rf /var/lib/apt/lists/*
-
-RUN mkdir -p /etc/services.d/xvfb/
-COPY ./deps/xvfb_init /etc/services.d/xvfb/run
-
-## Clean libsbml, and tar.gz files
-RUN rm -rf /tmp/libsbml-5.10.2 \
+	&& mkdir -p /etc/services.d/xvfb/ \
+	## Clean libsbml, and tar.gz files
+	&& rm -rf /tmp/libsbml-5.10.2 \
 	&& rm -rf /tmp/libSBML-5.10.2-core-src.tar.gz \
-	&& rm -rf /tmp/s6-overlay-amd64.tar.gz
-
-## Clean and rm
-RUN apt-get clean \
+        ## apt-get clean and remove cache
+	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/*
+
+COPY ./deps/xvfb_init /etc/services.d/xvfb/run
 
 USER root
 
