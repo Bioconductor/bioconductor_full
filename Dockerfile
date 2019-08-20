@@ -6,15 +6,14 @@ MAINTAINER nitesh.turaga@roswellpark.org
 # 'debconf: unable to initialize frontend: Dialog'
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get install -y dselect \
-	&& dselect update
-
 # Add BiocVersion
 RUN R -e "BiocManager::install(version='3.9')"
 
 # Update apt-get
 RUN apt-get update \
 	&& apt-get install -y --no-install-recommends apt-utils \
+	&& apt-get install -y dselect \
+	&& dselect update \
 	&& apt-get install -y --no-install-recommends \
 	pkg-config \
 	fortran77-compiler \
