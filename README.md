@@ -12,7 +12,7 @@ branch, and all the release branches will be under the branch
 
 Important Links:
 
-[Docker hub link for bioconductor_full](https://cloud.docker.com/u/bioconductor/repository/registry-1.docker.io/bioconductor/bioconductor_full)
+[Docker hub link for bioconductor_full](https://hub.docker.com/r/bioconductor/bioconductor_full)
 
 [Github development link for bioconductor_full](https://github.com/Bioconductor/bioconductor_full)
 
