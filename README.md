@@ -46,7 +46,7 @@ This document assumes you have [docker][] installed. Please check
 * On the command line, "pull" the bioconductor_full docker image with
   the correct tag. These images are hosted on docker hub under the
   [Bioconductor organization][] page.
-  
+
         docker pull bioconductor/bioconductor_full:devel
 
     or
@@ -74,6 +74,7 @@ This document assumes you have [docker][] installed. Please check
             --user bioc                                \
             -v ~/host-site-library:/usr/local/lib/R/host-site-library \
             bioconductor/bioconductor_full:devel       \
+            R
 
     NOTE: The path `/usr/local/lib/R/host-site-library` is mapped to
     `.libPaths()` in R. So, when R is started, all the libraries in
@@ -132,6 +133,6 @@ Bioconductor provides singularity hub images. The files Singularity, Singularity
 
 Find the singularity hub images, and download them by https://www.singularity-hub.org/collections/3154/usage
 
-	singularity pull shub://Bioconductor/bioconductor_full
+    singularity pull shub://Bioconductor/bioconductor_full
 
 [Bioconductor organization]: https://cloud.docker.com/u/bioconductor/repository/registry-1.docker.io/bioconductor/bioconductor_full
