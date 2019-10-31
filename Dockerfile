@@ -7,7 +7,8 @@ MAINTAINER nitesh.turaga@roswellpark.org
 ENV DEBIAN_FRONTEND noninteractive
 
 # Add BiocVersion
-RUN R -e "BiocManager::install(version='3.10')"
+RUN R -e "BiocManager::install(version='3.10')" \
+	&&  R -e "BiocManager::install('devtools')"
 
 # Update apt-get
 RUN apt-get update \
