@@ -112,6 +112,23 @@ This document assumes you have [docker][] installed. Please check
 
         docker exec -it <container_id> R
 
+* To run multiple RStudio instances, use a different external port
+  mapping (the first port in `-p XXXX:YYYY`) for each instance.
+  Use standard shell commands (e.g., adding a `&` at the end of the
+  first docker command) to place docker processes in the
+  background. The 'devel' instance will be available at
+  http://localhost:8787, and the release image at
+  http://localhost:8788
+
+        docker run                                      \
+            -e PASSWORD=your_password                   \
+            -p 8787:8787                                \
+            bioconductor/bioconductor_full:devel
+
+        docker run                                      \
+            -e PASSWORD=your_password                   \
+            -p 8788:8787                                \
+            bioconductor/bioconductor_full:RELEASE_3_10
 
 ## Issues in the devel image
 
