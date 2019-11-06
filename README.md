@@ -18,9 +18,9 @@ Important Links:
 
 ## Advantages of the `bioconductor_full` docker image
 
-1. The bioconductor_full docker images can be used instead of installing
-complex dependencies needed for Bioconductor packages. The image comes
-with most of the dependencies installed.
+1. The bioconductor_full docker images can be used instead of
+   installing complex dependencies needed for Bioconductor
+   packages. The image comes with most of the dependencies installed.
 
 1. Quick start up to start your analysis with all the Bioconductor
    packages if needed.
