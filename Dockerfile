@@ -1,4 +1,4 @@
-FROM bioconductor/release_base2:latest
+FROM bioconductor/release_base2:R3.6.1_Bioc3.9
 
 MAINTAINER nitesh.turaga@roswellpark.org
 
@@ -7,7 +7,7 @@ MAINTAINER nitesh.turaga@roswellpark.org
 ENV DEBIAN_FRONTEND noninteractive
 
 # Add BiocVersion
-RUN R -e "BiocManager::install(version='3.9')"
+RUN R -e "BiocManager::install(version='3.9', ask=FALSE)"
 
 # Update apt-get
 RUN apt-get update \
