@@ -1,4 +1,4 @@
-# Bioconductor RELEASE_3_9 Docker image
+# Bioconductor RELEASE_3_10 Docker image
 
 Bioconductor Docker image with full set of system dependencies so that
 all Bioconductor packages can be installed.
@@ -63,7 +63,7 @@ have more questions regarding this.
 		docker run
 			-p 8787:8787
 			-v <local/path/host-site-repositories>:/
-			bioconductor/bioconductor_full:RELEASE_3_9
+			bioconductor/bioconductor_full:RELEASE_3_10
 
 * To start the image interactively using the `bioc` user
 
@@ -71,7 +71,7 @@ have more questions regarding this.
 			-it
 			--user bioc
 			-v <local/path/R-libraries>:/usr/local/lib/R/host-site-library
-			bioconductor/bioconductor_full:RELEASE_3_9
+			bioconductor/bioconductor_full:RELEASE_3_10
 
 	NOTE: The path `/usr/local/lib/R/host-site-library` is mapped to
 	`.libPaths()` in R. So, when R is started, all the libraries in
@@ -92,7 +92,7 @@ have more questions regarding this.
 			-d
 			-v /host-site-libraries:/usr/local/lib/R/host-site-libraries
 			--entrypoint /bin/bash
-			bioconductor/bioconductor_full:RELEASE_3_9
+			bioconductor/bioconductor_full:RELEASE_3_10
 
 	This will start the container in the background and keep it
 	running. You may check the running processes using `docker ps`,
