@@ -7,7 +7,7 @@ MAINTAINER nitesh.turaga@roswellpark.org
 ENV DEBIAN_FRONTEND noninteractive
 
 # Add BiocVersion
-RUN R -e "BiocManager::install(version='3.10')" \
+RUN R -e "BiocManager::install(version='3.11')" \
 	&&  R -e "BiocManager::install('devtools')"
 
 # Update apt-get
@@ -26,7 +26,7 @@ RUN apt-get update \
 	libfftw3-dev \
 	libopenbabel-dev \
 	libopenmpi-dev \
-	libexempi3 \
+	libexempi8 \
 	libxt-dev \
 	libgdal-dev \
 	libjpeg62-turbo-dev \
@@ -34,7 +34,7 @@ RUN apt-get update \
 	libtiff5-dev \
 	libreadline-dev \
 	libgsl0-dev \
-	libgsl2 \
+	libgslcblas0 \
 	libgtk2.0-dev \
 	libgl1-mesa-dev \
 	libglu1-mesa-dev \
@@ -44,7 +44,7 @@ RUN apt-get update \
 	libbz2-dev \
 	libxpm-dev \
 	liblapack-dev \
-	libv8-3.14-dev \
+	libv8-dev \
 	libgtkmm-2.4-dev \
 	libmpfr-dev \
 	libudunits2-dev \
@@ -72,9 +72,9 @@ RUN apt-get update \
 	mpi-default-bin \
 	openmpi-common \
 	openmpi-doc \
-	tcl8.5-dev \
+	tcl8.6-dev \
 	tk-dev \
-	openjdk-8-jdk \
+	default-jdk \
 	imagemagick \
 	tabix \
 	ggobi \
