@@ -152,4 +152,18 @@ Find the singularity hub images, and download them by https://www.singularity-hu
 
     singularity pull shub://Bioconductor/bioconductor_full
 
+## Frequently Asked Questions (FAQ)
+
+### How do I use LaTeX inside the container?
+
+Install the `tinytex` package (https://yihui.name/tinytex/) which has helpers for installing LaTeX functionality.
+
+```r
+install.packages('tinytex')
+tinytex::install_tinytex()
+```
+
+
 [Bioconductor organization]: https://cloud.docker.com/u/bioconductor/repository/registry-1.docker.io/bioconductor/bioconductor_full
+
+
