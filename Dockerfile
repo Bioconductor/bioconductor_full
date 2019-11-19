@@ -1,6 +1,6 @@
 FROM bioconductor/release_base2:latest
 
-MAINTAINER nitesh.turaga@roswellpark.org
+LABEL maintainer="nitesh.turaga@roswellpark.org"
 
 # This is to avoid the error
 # 'debconf: unable to initialize frontend: Dialog'
