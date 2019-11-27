@@ -92,7 +92,7 @@ RUN apt-get update \
 RUN apt-get update \
 	&& apt-get -y --no-install-recommends install python-dev \
 	&& pip install wheel \
-        ## Install sklearn and pandas on python
+	## Install sklearn and pandas on python
 	&& pip install sklearn \
 	pandas \
 	pyyaml \
@@ -102,7 +102,7 @@ RUN apt-get update \
 
 # Install libsbml and xvfb
 RUN cd /tmp \
-        ## libsbml
+	## libsbml
 	&& curl -O https://s3.amazonaws.com/linux-provisioning/libSBML-5.10.2-core-src.tar.gz \
 	&& tar zxf libSBML-5.10.2-core-src.tar.gz \
 	&& cd libsbml-5.10.2 \
@@ -117,13 +117,25 @@ RUN cd /tmp \
 	## Clean libsbml, and tar.gz files
 	&& rm -rf /tmp/libsbml-5.10.2 \
 	&& rm -rf /tmp/libSBML-5.10.2-core-src.tar.gz \
-        ## apt-get clean and remove cache
+	## apt-get clean and remove cache
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/*
 
 COPY ./deps/xvfb_init /etc/services.d/xvfb/run
 
 USER root
+
+# Environment variables for the build system,
+# these need to be only in the "devel" container 
+ENV _R_CHECK_EXECUTABLES_=false \
+	_R_CHECK_EXECUTABLES_EXCLUSIONS_=false \
+	_R_CHECK_LENGTH_1_CONDITION_=package:_R_CHECK_PACKAGE_NAME_,abort,verbose \
+	_R_CHECK_S3_METHODS_NOT_REGISTERED_=true
+
+RUN echo _R_CHECK_EXECUTABLES_=false >> /etc/environment \
+	&& echo _R_CHECK_EXECUTABLES_EXCLUSIONS_=false >> /etc/environment \
+	&& echo _R_CHECK_LENGTH_1_CONDITION_=package:_R_CHECK_PACKAGE_NAME_,abort,verbose >> /etc/environment \
+	&& echo _R_CHECK_S3_METHODS_NOT_REGISTERED_=true >> /etc/environment
 
 # Init command for s6-overlay
 CMD ["/init"]
