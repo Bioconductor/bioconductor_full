@@ -127,15 +127,13 @@ USER root
 
 # Environment variables for the build system,
 # these need to be only in the "devel" container 
-ENV _R_CHECK_EXECUTABLES_=false \
-	_R_CHECK_EXECUTABLES_EXCLUSIONS_=false \
-	_R_CHECK_LENGTH_1_CONDITION_=package:_R_CHECK_PACKAGE_NAME_,abort,verbose \
-	_R_CHECK_S3_METHODS_NOT_REGISTERED_=true
+## Pull file from github for devel build sys-env variables
+ADD https://raw.githubusercontent.com/Bioconductor/BBS/master/3.11/R_env_vars.sh /root/R_env_vars.sh
 
-RUN echo _R_CHECK_EXECUTABLES_=false >> /etc/environment \
-	&& echo _R_CHECK_EXECUTABLES_EXCLUSIONS_=false >> /etc/environment \
-	&& echo _R_CHECK_LENGTH_1_CONDITION_=package:_R_CHECK_PACKAGE_NAME_,abort,verbose >> /etc/environment \
-	&& echo _R_CHECK_S3_METHODS_NOT_REGISTERED_=true >> /etc/environment
+## Add sys env variables to
+RUN cat /root/R_env_vars.sh | grep -o '^[^#]*' | sed 's/export //g' >>/etc/environment \
+        && cat /root/R_env_vars.sh >> /root/.bashrc \
+	&& rm -rf /root/R_env_vars.sh
 
 # Init command for s6-overlay
 CMD ["/init"]
