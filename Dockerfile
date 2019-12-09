@@ -126,14 +126,14 @@ COPY ./deps/xvfb_init /etc/services.d/xvfb/run
 USER root
 
 # Environment variables for the build system,
-# these need to be only in the "devel" container 
+# these need to be only in the "devel" container
 ## Pull file from github for devel build sys-env variables
-ADD https://raw.githubusercontent.com/Bioconductor/BBS/master/3.11/R_env_vars.sh /root/R_env_vars.sh
 
 ## Add sys env variables to
-RUN cat /root/R_env_vars.sh | grep -o '^[^#]*' | sed 's/export //g' >>/etc/environment \
-        && cat /root/R_env_vars.sh >> /root/.bashrc \
-	&& rm -rf /root/R_env_vars.sh
+RUN curl -O https://raw.githubusercontent.com/Bioconductor/BBS/master/3.11/R_env_vars.sh \
+	&& cat R_env_vars.sh | grep -o '^[^#]*' | sed 's/export //g' >>/etc/environment \
+	&& cat R_env_vars.sh >> /root/.bashrc \
+	&& rm -rf R_env_vars.sh
 
 # Init command for s6-overlay
 CMD ["/init"]
