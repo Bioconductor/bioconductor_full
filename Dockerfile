@@ -92,7 +92,7 @@ RUN apt-get update \
 RUN apt-get update \
 	&& apt-get -y --no-install-recommends install python-dev \
 	&& pip install wheel \
-        ## Install sklearn and pandas on python
+	## Install sklearn and pandas on python
 	&& pip install sklearn \
 	pandas \
 	pyyaml \
@@ -102,7 +102,7 @@ RUN apt-get update \
 
 # Install libsbml and xvfb
 RUN cd /tmp \
-        ## libsbml
+	## libsbml
 	&& curl -O https://s3.amazonaws.com/linux-provisioning/libSBML-5.10.2-core-src.tar.gz \
 	&& tar zxf libSBML-5.10.2-core-src.tar.gz \
 	&& cd libsbml-5.10.2 \
@@ -117,13 +117,23 @@ RUN cd /tmp \
 	## Clean libsbml, and tar.gz files
 	&& rm -rf /tmp/libsbml-5.10.2 \
 	&& rm -rf /tmp/libSBML-5.10.2-core-src.tar.gz \
-        ## apt-get clean and remove cache
+	## apt-get clean and remove cache
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/*
 
 COPY ./deps/xvfb_init /etc/services.d/xvfb/run
 
 USER root
+
+# Environment variables for the build system,
+# these need to be only in the "devel" container
+## Pull file from github for devel build sys-env variables
+
+## Add sys env variables to
+RUN curl -O https://raw.githubusercontent.com/Bioconductor/BBS/master/3.11/R_env_vars.sh \
+	&& cat R_env_vars.sh | grep -o '^[^#]*' | sed 's/export //g' >>/etc/environment \
+	&& cat R_env_vars.sh >> /root/.bashrc \
+	&& rm -rf R_env_vars.sh
 
 # Init command for s6-overlay
 CMD ["/init"]
