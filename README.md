@@ -1,4 +1,6 @@
-# Bioconductor Devel Docker image
+# Bioconductor Devel Docker image - DEPRECATED
+
+**Deprecation Notice** : The `bioconductor/bioconductor_full` images have been deprecated in favor of the new `bioconductor/bioconductor_docker` images located at https://github.com/bioconductor/bioconductor_docker . These new images will have the same functionality as `bioconductor_full`, and users should find it easy to switch between the new set of containers. Please refer to the [README.md](https://github.com/Bioconductor/bioconductor_docker/blob/master/README.md) of the new images for more information.
 
 Bioconductor Docker image with full set of system dependencies so that
 all Bioconductor packages can be installed.
