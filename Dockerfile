@@ -1,6 +1,8 @@
 FROM bioconductor/devel_base2:latest
 
-LABEL maintainer="nitesh.turaga@roswellpark.org"
+LABEL maintainer="maintainer@bioconductor.org"
+LABEL status="DEPRECATED"
+LABEL Description="Deprecated in favor of https://github.com/Bioconductor/bioconductor_docker."
 
 # This is to avoid the error
 # 'debconf: unable to initialize frontend: Dialog'
